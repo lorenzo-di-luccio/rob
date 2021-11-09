@@ -199,23 +199,13 @@ def sym_inverse_transl(transl: sympy.Matrix) -> sympy.Matrix:
 
 def hom(rot: numpy.ndarray, transl: numpy.ndarray) -> numpy.ndarray:
     transl = numpy.reshape(transl, (3, 1))
-    homm = numpy.array([
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 1]
-    ], dtype=float)
+    homm = numpy.eye(4, 4, dtype=float)
     homm[0:3, 0:3] = rot
-    homm[0:3, 3] = transl
+    homm[0:3, 3:4] = transl
     return homm
 
 def sym_hom(rot: sympy.Matrix, transl: sympy.Matrix) -> sympy.Matrix:
-    homm = sympy.Matrix([
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 1] 
-    ])
+    homm = sympy.Identity(4)
     homm[0:3, 0:3] = rot
     homm[0:3, 3] = transl
     return homm
@@ -243,14 +233,9 @@ def inverse_hom(hom: numpy.ndarray) -> numpy.ndarray:
     inv_rot = numpy.transpose(rot)
     transl = numpy.array(hom[0:3, 3], dtype=float)
     inv_transl = -inv_rot @ transl
-    inv_homm = numpy.array([
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 1]
-    ], dtype=float)
+    inv_homm = numpy.eye(4, 4, dtype=float)
     inv_homm[0:3, 0:3] = inv_rot
-    inv_homm[0:3, 3] = inv_transl
+    inv_homm[0:3, 3:4] = inv_transl
     return inv_homm
 
 def sym_inverse_hom(hom: sympy.Matrix) -> sympy.Matrix:
@@ -258,12 +243,7 @@ def sym_inverse_hom(hom: sympy.Matrix) -> sympy.Matrix:
     inv_rot = sympy.transpose(rot)
     transl = sympy.Matrix(hom[0:3, 3])
     inv_transl = sympy.simplify(-inv_rot * transl)
-    inv_homm = sympy.Matrix([
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 1] 
-    ])
+    inv_homm = sympy.Identity(4)
     inv_homm[0:3, 0:3] = inv_rot
     inv_homm[0:3, 3] = inv_transl
     return inv_homm
