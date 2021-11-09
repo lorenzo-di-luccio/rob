@@ -143,6 +143,24 @@ def sym_rot_rpy(anglex: sympy.NumberSymbol, angley: sympy.NumberSymbol, anglez: 
     ], dtype=float)
     return sympy.simplify(rotzm * rotym * rotxm)
 
+def concat_rot(rot1: numpy.ndarray, rot2: numpy.ndarray) -> numpy.ndarray:
+    return rot1 @ rot2
+
+def sym_concat_rot(rot1: sympy.Matrix, rot2: sympy.Matrix) -> sympy.Matrix:
+    return sympy.simplify(rot1 * rot2)
+
+def concat_rots(rots: Iterable[numpy.ndarray]) -> numpy.ndarray:
+    total_rot = numpy.eye(3, 3, dtype=float)
+    for rot in rots:
+        total_rot @= rot
+    return total_rot
+
+def sym_concat_rots(rots: Iterable[sympy.Matrix]) -> sympy.Matrix:
+    total_rot = sympy.Identity(3)
+    for rot in rots:
+        total_rot *= rot
+    return sympy.simplify(total_rot)
+
 def inverse_rot(rot: numpy.ndarray) -> numpy.ndarray:
     return numpy.transpose(rot)
 
@@ -154,6 +172,24 @@ def transl(x: float, y: float, z: float) -> numpy.ndarray:
 
 def sym_transl(x: sympy.NumberSymbol, y: sympy.NumberSymbol, z: sympy.NumberSymbol) -> sympy.Matrix:
     return sympy.Matrix([x, y, z])
+
+def concat_transl(transl1: numpy.ndarray, transl2: numpy.ndarray) -> numpy.ndarray:
+    return transl1 + transl2
+
+def sym_concat_transl(transl1: sympy.Matrix, transl2: sympy.Matrix) -> sympy.Matrix:
+    return sympy.simplify(transl1 + transl2)
+
+def concat_transls(transls: Iterable[numpy.ndarray]) -> numpy.ndarray:
+    total_transl = numpy.zeros((3,), dtype=float)
+    for transl in transls:
+        total_transl += transl
+    return total_transl
+
+def sym_concat_transls(transls: Iterable[sympy.Matrix]) -> sympy.Matrix:
+    total_transl = sympy.ZeroMatrix(3, 1)
+    for transl in transls:
+        total_transl += transl
+    return sympy.simplify(total_transl)
 
 def inverse_transl(transl: numpy.ndarray) -> numpy.ndarray:
     return -transl
@@ -183,6 +219,24 @@ def sym_hom(rot: sympy.Matrix, transl: sympy.Matrix) -> sympy.Matrix:
     homm[0:3, 0:3] = rot
     homm[0:3, 3] = transl
     return homm
+
+def concat_hom(hom1: numpy.ndarray, hom2: numpy.ndarray) -> numpy.ndarray:
+    return hom1 @ hom2
+
+def sym_concat_hom(hom1: sympy.Matrix, hom2: sympy.Matrix) -> sympy.Matrix:
+    return sympy.simplify(hom1 * hom2)
+
+def concat_homs(homs: Iterable[numpy.ndarray]) -> numpy.ndarray:
+    total_hom = numpy.eye(4, dtype=float)
+    for hom in homs:
+        total_hom @= hom
+    return total_hom
+
+def sym_concat_homs(homs: Iterable[sympy.Matrix]) -> sympy.Matrix:
+    total_hom = sympy.Identity(4)
+    for hom in homs:
+        total_hom *= hom
+    return sympy.simplify(total_hom)
 
 def inverse_hom(hom: numpy.ndarray) -> numpy.ndarray:
     rot = numpy.array(hom[0:3, 0:3], dtype=float)
