@@ -17,6 +17,12 @@ def sym_skew(vec: sympy.Matrix) -> sympy.Matrix:
         [-vec[1], vec[0], 0]
     ])
 
+def no_rot() -> numpy.ndarray:
+    return numpy.eye(3, 3, dtype=float)
+
+def sym_no_rot() -> sympy.Matrix:
+    return sympy.Identity(3)
+
 def rot(axis: numpy.ndarray, angle: float) -> numpy.ndarray:
     new_axis = numpy.reshape(axis, (3, 1))
     axis_mat = new_axis @ new_axis.T
@@ -167,6 +173,12 @@ def inverse_rot(rot: numpy.ndarray) -> numpy.ndarray:
 def sym_inverse_rot(rot: sympy.Matrix) -> sympy.Matrix:
     return sympy.transpose(rot)
 
+def no_transl() -> numpy.ndarray:
+    return numpy.zeros((3,), dtype=float)
+
+def sym_no_transl() -> sympy.Matrix:
+    return sympy.ZeroMatrix(3, 1)
+
 def transl(x: float, y: float, z: float) -> numpy.ndarray:
     return numpy.array([x, y, z], dtype=float)
 
@@ -205,7 +217,12 @@ def hom(rot: numpy.ndarray, transl: numpy.ndarray) -> numpy.ndarray:
     return homm
 
 def sym_hom(rot: sympy.Matrix, transl: sympy.Matrix) -> sympy.Matrix:
-    homm = sympy.Identity(4)
+    homm = sympy.Matrix([
+        [1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]
+    ])
     homm[0:3, 0:3] = rot
     homm[0:3, 3] = transl
     return homm
@@ -219,7 +236,7 @@ def sym_concat_hom(hom1: sympy.Matrix, hom2: sympy.Matrix) -> sympy.Matrix:
 def concat_homs(homs: Iterable[numpy.ndarray]) -> numpy.ndarray:
     total_hom = numpy.eye(4, dtype=float)
     for hom in homs:
-        total_hom @= hom
+        total_hom = total_hom @ hom
     return total_hom
 
 def sym_concat_homs(homs: Iterable[sympy.Matrix]) -> sympy.Matrix:
@@ -243,7 +260,12 @@ def sym_inverse_hom(hom: sympy.Matrix) -> sympy.Matrix:
     inv_rot = sympy.transpose(rot)
     transl = sympy.Matrix(hom[0:3, 3])
     inv_transl = sympy.simplify(-inv_rot * transl)
-    inv_homm = sympy.Identity(4)
+    inv_homm = sympy.Matrix([
+        [1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]
+    ])
     inv_homm[0:3, 0:3] = inv_rot
     inv_homm[0:3, 3] = inv_transl
     return inv_homm
