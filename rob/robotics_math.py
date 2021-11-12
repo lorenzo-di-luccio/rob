@@ -7,9 +7,13 @@ from typing import *
 PI: float = numpy.pi
 SYM_PI: sympy.Symbol = sympy.pi
 EPS: float = 1.-10
+INFINITY: float = numpy.inf
 
 def sym(name: str) -> sympy.Symbol:
     return sympy.Symbol(name, real=True)
+
+def print(expr: numpy.ndarray) -> None:
+    print(expr)
 
 def sym_print(expr: sympy.Expr) -> None:
     sympy.printing.pretty_print(expr)
