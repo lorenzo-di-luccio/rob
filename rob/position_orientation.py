@@ -26,7 +26,11 @@ def no_rot() -> numpy.ndarray:
     return numpy.eye(3, 3, dtype=float)
 
 def sym_no_rot() -> sympy.Matrix:
-    return sympy.Identity(3)
+    return sympy.Matrix([
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1]
+    ])
 
 def rot(axis: numpy.ndarray, angle: float) -> numpy.ndarray:
     new_axis = numpy.reshape(axis, (3, 1))
@@ -49,7 +53,11 @@ def sym_rot(axis: sympy.Matrix, angle: sympy.NumberSymbol) -> sympy.Matrix:
     ])
     c = sympy.cos(angle)
     s = sympy.sin(angle)
-    return sympy.simplify(axis_mat + (sympy.Identity(3) - axis_mat) * c + axis_skew_mat * s)
+    return sympy.simplify(axis_mat + (sympy.Matrix([
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1]
+    ]) - axis_mat) * c + axis_skew_mat * s)
 
 def rotx(angle: float) -> numpy.ndarray:
     c = cos(angle)
@@ -167,7 +175,11 @@ def concat_rots(rots: Iterable[numpy.ndarray]) -> numpy.ndarray:
     return total_rot
 
 def sym_concat_rots(rots: Iterable[sympy.Matrix]) -> sympy.Matrix:
-    total_rot = sympy.Identity(3)
+    total_rot = sympy.Matrix([
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1]
+    ])
     for rot in rots:
         total_rot *= rot
     return sympy.simplify(total_rot)
@@ -182,7 +194,7 @@ def no_transl() -> numpy.ndarray:
     return numpy.zeros((3,), dtype=float)
 
 def sym_no_transl() -> sympy.Matrix:
-    return sympy.ZeroMatrix(3, 1)
+    return sympy.Matrix([0, 0, 0])
 
 def transl(x: float, y: float, z: float) -> numpy.ndarray:
     return numpy.array([x, y, z], dtype=float)
@@ -203,7 +215,7 @@ def concat_transls(transls: Iterable[numpy.ndarray]) -> numpy.ndarray:
     return total_transl
 
 def sym_concat_transls(transls: Iterable[sympy.Matrix]) -> sympy.Matrix:
-    total_transl = sympy.ZeroMatrix(3, 1)
+    total_transl = sympy.Matrix([0, 0, 0])
     for transl in transls:
         total_transl += transl
     return sympy.simplify(total_transl)
@@ -245,7 +257,12 @@ def concat_homs(homs: Iterable[numpy.ndarray]) -> numpy.ndarray:
     return total_hom
 
 def sym_concat_homs(homs: Iterable[sympy.Matrix]) -> sympy.Matrix:
-    total_hom = sympy.Identity(4)
+    total_hom = sympy.Matrix([
+        [1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]
+    ])
     for hom in homs:
         total_hom *= hom
     return sympy.simplify(total_hom)
