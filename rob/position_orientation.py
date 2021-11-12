@@ -1,7 +1,8 @@
-import math
 import numpy
+import numpy.linalg
 import sympy
 from typing import *
+from .robotics_math import EPS, abs, cos, sin
 
 def skew(vec: numpy.ndarray) -> numpy.ndarray:
     return numpy.array([
@@ -17,6 +18,10 @@ def sym_skew(vec: sympy.Matrix) -> sympy.Matrix:
         [-vec[1], vec[0], 0]
     ])
 
+def is_rot(rot: numpy.ndarray) -> bool:
+    det = numpy.linalg.det(rot)
+    return abs(det - 1.) < EPS 
+
 def no_rot() -> numpy.ndarray:
     return numpy.eye(3, 3, dtype=float)
 
@@ -31,8 +36,8 @@ def rot(axis: numpy.ndarray, angle: float) -> numpy.ndarray:
         [axis[2], 0, -axis[0]],
         [-axis[1], axis[0], 0]
     ], dtype=float)
-    c = math.cos(angle)
-    s = math.sin(angle)
+    c = cos(angle)
+    s = sin(angle)
     return axis_mat + (numpy.eye(3, 3) - axis_mat) * c + axis_skew_mat * s
 
 def sym_rot(axis: sympy.Matrix, angle: sympy.NumberSymbol) -> sympy.Matrix:
@@ -47,8 +52,8 @@ def sym_rot(axis: sympy.Matrix, angle: sympy.NumberSymbol) -> sympy.Matrix:
     return sympy.simplify(axis_mat + (sympy.Identity(3) - axis_mat) * c + axis_skew_mat * s)
 
 def rotx(angle: float) -> numpy.ndarray:
-    c = math.cos(angle)
-    s = math.sin(angle)
+    c = cos(angle)
+    s = sin(angle)
     return numpy.array([
         [1, 0, 0],
         [0, c, -s],
@@ -65,8 +70,8 @@ def sym_rotx(angle: sympy.NumberSymbol) -> numpy.ndarray:
     ])
 
 def roty(angle: float) -> numpy.ndarray:
-    c = math.cos(angle)
-    s = math.sin(angle)
+    c = cos(angle)
+    s = sin(angle)
     return numpy.array([
         [c, 0, s],
         [0, 1, 0],
@@ -83,8 +88,8 @@ def sym_roty(angle: sympy.NumberSymbol) -> numpy.ndarray:
     ])
 
 def rotz(angle: float) -> numpy.ndarray:
-    c = math.cos(angle)
-    s = math.sin(angle)
+    c = cos(angle)
+    s = sin(angle)
     return numpy.array([
         [c, -s, 0],
         [s, c, 0],
@@ -101,12 +106,12 @@ def sym_rotz(angle: sympy.NumberSymbol) -> numpy.ndarray:
     ])
 
 def rot_rpy(anglex: float, angley: float, anglez: float) -> numpy.ndarray:
-    cx = math.cos(anglex)
-    sx = math.sin(anglex)
-    cy = math.cos(angley)
-    sy = math.sin(angley)
-    cz = math.cos(anglez)
-    sz = math.sin(anglez)
+    cx = cos(anglex)
+    sx = sin(anglex)
+    cy = cos(angley)
+    sy = sin(angley)
+    cz = cos(anglez)
+    sz = sin(anglez)
     rotzm = numpy.array([
         [cz, -sz, 0],
         [sz, cz, 0],

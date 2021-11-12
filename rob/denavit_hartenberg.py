@@ -138,7 +138,7 @@ class DH_Robot():
             transfm = transfm @ joint.transf()
         return transfm
     
-    def sym_total_transf(self, sym_qs: Iterable[sympy.NumberSymbol]=None) -> sympy.NumberSymbol:
+    def sym_total_transf(self) -> sympy.NumberSymbol:
         transfm = sympy.Identity(4)
         for joint in self.joints:
             transfm *= joint.sym_transf()
