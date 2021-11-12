@@ -49,4 +49,3 @@ else:
     rob.matvec_print(rob.deg(sol2[1]))
     print("angle in rad:")
     rob.matvec_print(sol2[1])
-    print(10 * "*")
