@@ -2,7 +2,7 @@ import dataclasses
 import numpy
 
 from .base import wrap_mpi_pi
-from .vectors_matrices import isrot2, ishom2
+from .transforms2d import isrot2, ishom2
 
 @dataclasses.dataclass
 class InverseRot2Solution():
