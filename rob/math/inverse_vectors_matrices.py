@@ -27,4 +27,4 @@ def inverse_rot2(rotmat: numpy.ndarray) -> InverseRot2Solution:
 def inverse_hom_rot2(homrotmat: numpy.ndarray) -> InverseRot2Solution:
     if not ishom2(homrotmat):
         return InverseRot2Solution(False, "Not a hom_rot2 matrix", 0, None)
-    return InverseRot2Solution(True, None, 1, wrap_mpi_pi(numpy.arctan2(homrotmat[1, 0], homrotmat[0, 0])))
+    return InverseHomRot2Solution(True, None, 1, wrap_mpi_pi(numpy.arctan2(homrotmat[1, 0], homrotmat[0, 0])))
