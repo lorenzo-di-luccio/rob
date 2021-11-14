@@ -46,13 +46,10 @@ def isrot2(mat: numpy.ndarray) -> bool:
 def transl2(tx: float, ty: float) -> numpy.ndarray:
     return numpy.array([tx, ty], dtype=numpy.float64)
 
-def transl2_inv(translvec: numpy.ndarray) -> numpy.ndarray:
-    return -translvec
-
 def coltransl2(tx: float, ty: float) -> numpy.ndarray:
     return numpy.array([[tx], [ty]], dtype=numpy.float64)
 
-def coltransl2_inv(translvec: numpy.ndarray) -> numpy.ndarray:
+def transl2_inv(translvec: numpy.ndarray) -> numpy.ndarray:
     return -translvec
 
 def hom_transl2(tx: float, ty: float) -> numpy.ndarray:
