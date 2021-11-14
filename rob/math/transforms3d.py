@@ -42,5 +42,53 @@ def rotz(angle: float) -> numpy.ndarray:
         [0, 0, 1]
     ], dtype=numpy.float64)
 
+def rot_eulzxz(anglez: float, anglex: float, anglez1: float) -> numpy.ndarray:
+    cz = numpy.cos(anglez, dtype=numpy.float64)
+    sz = numpy.sin(anglez, dtype=numpy.float64)
+    cx = numpy.cos(anglex, dtype=numpy.float64)
+    sx = numpy.sin(anglex, dtype=numpy.float64)
+    cz1 = numpy.cos(anglez1, dtype=numpy.float64)
+    sz1 = numpy.sin(anglez1, dtype=numpy.float64)
+    rotzmat = numpy.array([
+        [cz, -sz, 0],
+        [sz, cz, 0],
+        [0, 0, 1]
+    ], dtype=numpy.float64)
+    rotxmat = numpy.array([
+        [1, 0, 0],
+        [0, cx, -sx],
+        [0, sx, cx]
+    ], dtype=numpy.float64)
+    rotz1mat = numpy.array([
+        [cz1, -sz1, 0],
+        [sz1, cz1, 0],
+        [0, 0, 1]
+    ], dtype=numpy.float64)
+    return rotzmat @ rotxmat @ rotz1mat
+
+def rot_rpyxyz(anglex: float, angley: float, anglez: float) -> numpy.ndarray:
+    cx = numpy.cos(anglex, dtype=numpy.float64)
+    sx = numpy.sin(anglex, dtype=numpy.float64)
+    cy = numpy.cos(angley, dtype=numpy.float64)
+    sy = numpy.sin(angley, dtype=numpy.float64)
+    cz = numpy.cos(anglez, dtype=numpy.float64)
+    sz = numpy.sin(anglez, dtype=numpy.float64)
+    rotxmat = numpy.array([
+        [1, 0, 0],
+        [0, cx, -sx],
+        [0, sx, cx]
+    ], dtype=numpy.float64)
+    rotymat = numpy.array([
+        [cy, 0, sy],
+        [0, 1, 0],
+        [-sy, 0, cy]
+    ], dtype=numpy.float64)
+    rotzmat = numpy.array([
+        [cz, -sz, 0],
+        [sz, cz, 0],
+        [0, 0, 1]
+    ], dtype=numpy.float64)
+    return rotzmat @ rotymat @ rotxmat
+
 def rot_inv(rotmat: numpy.ndarray) -> numpy.ndarray:
     return numpy.array(numpy.transpose(rotmat), copy=True)
