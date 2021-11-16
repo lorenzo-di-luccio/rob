@@ -4,6 +4,12 @@ from typing import Tuple
 
 from .base import EPS
 
+def no_rot2() -> numpy.ndarray:
+    return numpy.eye(2, 2, dtype=numpy.float64)
+
+def hom_no_rot2() -> numpy.ndarray:
+    return numpy.eye(3, 3, dtype=numpy.float64)
+
 def rot2(angle: float) -> numpy.ndarray:
     c = numpy.cos(angle, dtype=numpy.float64)
     s = numpy.sin(angle, dtype=numpy.float64)
@@ -43,14 +49,23 @@ def isrot2(mat: numpy.ndarray) -> bool:
         return False
     return True
 
+def no_transl2() -> numpy.ndarray:
+    return numpy.zeros((2,), dtype=numpy.float64)
+
 def transl2(tx: float, ty: float) -> numpy.ndarray:
     return numpy.array([tx, ty], dtype=numpy.float64)
+
+def no_coltransl2() -> numpy.ndarray:
+    return numpy.zeros((2, 1), dtype=numpy.float64)
 
 def coltransl2(tx: float, ty: float) -> numpy.ndarray:
     return numpy.array([[tx], [ty]], dtype=numpy.float64)
 
 def transl2_inv(translvec: numpy.ndarray) -> numpy.ndarray:
     return -translvec
+
+def hom_no_transl2() -> numpy.ndarray:
+    return numpy.eye(3, 3, dtype=numpy.float64) 
 
 def hom_transl2(tx: float, ty: float) -> numpy.ndarray:
     return numpy.array([

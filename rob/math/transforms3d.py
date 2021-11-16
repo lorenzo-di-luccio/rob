@@ -15,6 +15,12 @@ def skew(vec: numpy.ndarray) -> numpy.ndarray:
 def vex(skewmat: numpy.ndarray) -> numpy.ndarray:
     return numpy.array([skewmat[2, 1], skewmat[0, 2], skewmat[1, 0]], dtype=numpy.float64)
 
+def no_rot() -> numpy.ndarray:
+    return numpy.eye(3, 3, dtype=numpy.float64)
+
+def hom_no_rot() -> numpy.ndarray:
+    return numpy.eye(4, 4, dtype=numpy.float64)
+
 def rot(axis: numpy.ndarray, angle: float) -> numpy.ndarray:
     if axis.shape != (3,) or axis.shape != (3, 1):
         return numpy.eye(3, 3, dtype=numpy.float64)
@@ -161,8 +167,14 @@ def hom_rot_inv(homrotmat: numpy.ndarray) -> numpy.ndarray:
         [0, 0, 0, 1]
     ], dtype=numpy.float64)
 
+def no_transl() -> numpy.ndarray:
+    return numpy.zeros((3,), dtype=numpy.float64)
+
 def transl(tx: float, ty: float, tz: float) -> numpy.ndarray:
     return numpy.array([tx, ty, tz], dtype=numpy.float64)
+
+def no_coltransl() -> numpy.ndarray:
+    return numpy.zeros((3, 1), dtype=numpy.float64)
 
 def coltransl(tx: float, ty: float, tz: float) -> numpy.ndarray:
     return numpy.array([[tx], [ty], [tz]], dtype=numpy.float64)
