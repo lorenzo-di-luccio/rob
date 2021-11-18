@@ -7,3 +7,4 @@ from .sym_transforms2d import *
 from .inverse_transforms2d import *
 from .transforms3d import *
 from .sym_transforms3d import *
+from .inverse_transforms3d import *

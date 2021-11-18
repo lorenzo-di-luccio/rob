@@ -46,14 +46,16 @@ class InverseHom2Solution():
 def inverse_rot2(rotmat: numpy.ndarray) -> InverseRot2Solution:
     if not isrot2(rotmat):
         return InverseRot2Solution(False, "Not a rot2 matrix", 0, None)
-    return InverseRot2Solution(True, None, 1, wrap_mpi_pi(numpy.arctan2(rotmat[1, 0], rotmat[0, 0])))
+    angle = wrap_mpi_pi(numpy.arctan2(rotmat[1, 0], rotmat[0, 0], dtype=numpy.float64))
+    return InverseRot2Solution(True, None, 1, angle)
 
 def inverse_hom_rot2(homrotmat: numpy.ndarray) -> InverseHomRot2Solution:
     if not ishom2(homrotmat):
         return InverseHomRot2Solution(False, "Not a hom_rot2 matrix", 0, None)
-    return InverseHomRot2Solution(True, None, 1, wrap_mpi_pi(numpy.arctan2(homrotmat[1, 0], homrotmat[0, 0])))
+    angle = wrap_mpi_pi(numpy.arctan2(homrotmat[1, 0], homrotmat[0, 0], dtype=numpy.float64))
+    return InverseHomRot2Solution(True, None, 1, angle)
 
-def inverse_rot2(translvec: numpy.ndarray) -> InverseTransl2Solution:
+def inverse_transl2(translvec: numpy.ndarray) -> InverseTransl2Solution:
     translvec = translvec.reshape((-1,))
     return InverseTransl2Solution(True, None, 1, translvec[0], translvec[1])
 
@@ -65,5 +67,5 @@ def inverse_hom_transl2(homtranslmat: numpy.ndarray) -> InverseHomTransl2Solutio
 def inverse_hom2(hommat: numpy.ndarray) -> InverseHom2Solution:
     if not ishom2(hommat):
         return InverseHom2Solution(False, "Not a hom2 matrix", 0, None, None, None)
-    return InverseHom2Solution(True, None, 1, wrap_mpi_pi(numpy.arctan2(hommat[1, 0], hommat[0, 0])),
-                               hommat[0, 2], hommat[1, 2])
+    angle = wrap_mpi_pi(numpy.arctan2(hommat[1, 0], hommat[0, 0], dtype=numpy.float64))
+    return InverseHom2Solution(True, None, 1, angle, hommat[0, 2], hommat[1, 2])

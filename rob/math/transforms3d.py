@@ -22,7 +22,7 @@ def hom_no_rot() -> numpy.ndarray:
     return numpy.eye(4, 4, dtype=numpy.float64)
 
 def rot(axis: numpy.ndarray, angle: float) -> numpy.ndarray:
-    if axis.shape != (3,) or axis.shape != (3, 1):
+    if axis.shape != (3,) and axis.shape != (3, 1):
         return numpy.eye(3, 3, dtype=numpy.float64)
     axis = axis.reshape((-1,))
     norm = numpy.linalg.norm(axis)

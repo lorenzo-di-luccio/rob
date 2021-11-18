@@ -28,7 +28,7 @@ def sym_hom_no_rot() -> sympy.Matrix:
     ])
 
 def sym_rot(axis: sympy.Matrix, angle: sympy.NumberSymbol) -> sympy.Matrix:
-    if axis.shape != (1, 3) or axis.shape != (3, 1):
+    if axis.shape != (1, 3) and axis.shape != (3, 1):
         return sympy.Matrix([
         [1, 0, 0],
         [0, 1, 0],
