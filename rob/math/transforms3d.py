@@ -207,11 +207,11 @@ def DH_transformation(alpha: float, a: float, d: float, theta: float) -> numpy.n
     transf1 = numpy.array([
         [ctheta, -stheta, 0, 0],
         [stheta, ctheta, 0, 0],
-        [0, 0, 0, d],
+        [0, 0, 1, d],
         [0, 0, 0, 1]
     ], dtype=numpy.float64)
     transf2 = numpy.array([
-        [0, 0, 0, a],
+        [1, 0, 0, a],
         [0, calpha, -salpha, 0],
         [0, salpha, calpha, 0],
         [0, 0, 0, 1]

@@ -211,11 +211,11 @@ def sym_DH_transformation(alpha: sympy.NumberSymbol, a: sympy.NumberSymbol,
     transf1 = sympy.Matrix([
         [ctheta, -stheta, 0, 0],
         [stheta, ctheta, 0, 0],
-        [0, 0, 0, d],
+        [0, 0, 1, d],
         [0, 0, 0, 1]
     ])
     transf2 = sympy.Matrix([
-        [0, 0, 0, a],
+        [1, 0, 0, a],
         [0, calpha, -salpha, 0],
         [0, salpha, calpha, 0],
         [0, 0, 0, 1]
